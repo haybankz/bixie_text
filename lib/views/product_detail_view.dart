@@ -1,8 +1,13 @@
+import 'package:bixie_text/models/product.dart';
 import 'package:bixie_text/views/widgets/counter.dart';
 import 'package:bixie_text/views/widgets/extra_items_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailView extends StatelessWidget {
+  final Product product;
+
+  ProductDetailView({required this.product});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +18,7 @@ class ProductDetailView extends StatelessWidget {
             Column(
               children: [
                 Image.network(
-                  "https://res.cloudinary.com/ginja-co-ltd/image/upload/s--zHcUzne6--/c_fill,h_300,q_jpegmini,w_485/v1/vendors/the-coffee-club-205/products/flat-white-mug-14557",
+                  product.images?.fullSize ?? "",
                   height: 300,
                   width: double.infinity,
                   fit: BoxFit.fill,
@@ -22,14 +27,14 @@ class ProductDetailView extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  "Flat White",
+                  product.name ?? "",
                   style: TextStyle(color: Colors.black87, fontSize: 18),
                 ),
                 SizedBox(
                   height: 6,
                 ),
                 Text(
-                  "Freshly grounded beans and steamed milk",
+                  product.description ?? "",
                   style: TextStyle(
                     color: Colors.grey,
                   ),
@@ -47,7 +52,7 @@ class ProductDetailView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "\$ 125",
+                        "\$ ${product.price ?? 0}",
                         style: TextStyle(color: Colors.black87, fontSize: 18),
                       ),
                       Counter(
@@ -65,7 +70,7 @@ class ProductDetailView extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                   child: RichText(
                       text: TextSpan(
-                          text: "MILK OPTION",
+                          text: "${product.extras?[0].name ?? ""}",
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.black87,
@@ -82,7 +87,7 @@ class ProductDetailView extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                   child: Text(
-                    "Please select 1 item",
+                    "Please select ${product.extras?[0].max ?? "0"} item",
                     style: TextStyle(
                       color: Colors.black87,
                     ),
@@ -91,7 +96,7 @@ class ProductDetailView extends StatelessWidget {
                 Expanded(
                   child: SingleExtraItemsWidget(
                     // maximumOption: 2,
-                    options: ["Milk", "Choco", "Weed"],
+                    options: product.extraItems?.map((e) => e.name).toList() ?? [],
                     onSelect: (value) {
                       print(value);
                     },
@@ -130,17 +135,22 @@ class ProductDetailView extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 20,
+              top: 30,
               left: 20,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.grey,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             )

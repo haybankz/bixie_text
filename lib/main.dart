@@ -1,3 +1,4 @@
+import 'package:bixie_text/models/product.dart';
 import 'package:bixie_text/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductDetailView(),
+      home: MyHomePage(),
     );
   }
 }
@@ -25,7 +26,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,13 +33,19 @@ class MyHomePage extends StatelessWidget {
             Text(
               'Push the button to open product view',
             ),
-
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_) => ProductDetailView(), fullscreenDialog: false));
+        onPressed: () async {
+          Product product = await getProduct(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => ProductDetailView(
+                        product: product,
+                      ),
+                  fullscreenDialog: false));
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
