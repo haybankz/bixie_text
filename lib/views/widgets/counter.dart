@@ -34,11 +34,12 @@ class _CounterState extends State<Counter> {
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withOpacity(0.6),
                   shape: BoxShape.circle),
               child: Icon(
                 Icons.exposure_minus_1,
-                size: 14,
+                size: 20,
+                color: Colors.white,
               )),
         ),
         SizedBox(width: 14),

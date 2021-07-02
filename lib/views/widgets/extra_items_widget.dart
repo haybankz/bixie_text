@@ -30,7 +30,12 @@ class _SingleExtraItemsState extends State<SingleExtraItemsWidget> {
       itemBuilder: (_, index) => ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20),
         title: Text(widget.options[index]),
-        trailing: Radio<String>(value: widget.options[index], onChanged: (value){}, groupValue: selectedOption,),
+        trailing: Radio<String>(value: widget.options[index], onChanged: (value){
+          setState(() {
+            selectedOption = widget.options[index];
+            widget.onSelect(selectedOption);
+          });
+        }, groupValue: selectedOption,),
         onTap: () {
           setState(() {
             selectedOption = widget.options[index];

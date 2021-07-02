@@ -19,7 +19,7 @@ class ProductDetailView extends StatelessWidget {
               children: [
                 Image.network(
                   product.images?.fullSize ?? "",
-                  height: 300,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   fit: BoxFit.fill,
                 ),
@@ -28,7 +28,8 @@ class ProductDetailView extends StatelessWidget {
                 ),
                 Text(
                   product.name ?? "",
-                  style: TextStyle(color: Colors.black87, fontSize: 18),
+                  style: TextStyle(color: Colors.black87, fontSize: 18,
+                  fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 6,
@@ -53,7 +54,7 @@ class ProductDetailView extends StatelessWidget {
                     children: [
                       Text(
                         "\$ ${product.price ?? 0}",
-                        style: TextStyle(color: Colors.black87, fontSize: 18),
+                        style: TextStyle(color: Colors.black54, fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       Counter(
                           onChanged: (value) {
@@ -67,12 +68,12 @@ class ProductDetailView extends StatelessWidget {
                   width: double.infinity,
                   color: Colors.grey.withOpacity(0.2),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
                   child: RichText(
                       text: TextSpan(
-                          text: "${product.extras?[0].name ?? ""}",
+                          text: "${product.extras?[0].name ?? ""}".toUpperCase(),
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: Colors.black87,
                           ),
                           children: [
