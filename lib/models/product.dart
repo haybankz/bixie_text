@@ -230,8 +230,15 @@ class Category {
 
 }
 
+
+//util method to get product object from product json file
 Future<Product> getProduct(BuildContext context) async {
-  String data = await DefaultAssetBundle.of(context).loadString("assets/json/product.json");
-  final jsonResult = json.decode(data);
-   return Product.fromJson(jsonResult);
+  try {
+    String data = await DefaultAssetBundle.of(context).loadString(
+        "assets/json/product.json");
+    final jsonResult = json.decode(data);
+    return Product.fromJson(jsonResult);
+  }catch(e){
+    return Product();
+  }
 }

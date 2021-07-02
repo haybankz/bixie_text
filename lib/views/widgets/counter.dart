@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Counter extends StatefulWidget {
-
   final Function(int) onChanged;
 
   Counter({required this.onChanged});
@@ -20,14 +19,15 @@ class _CounterState extends State<Counter> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        //minus widget
         GestureDetector(
           onTap: () {
             setState(() {
-
+              //decrement if quantity is greater than 1, else show message
               if (currentSelection > 1) {
                 --currentSelection;
                 widget.onChanged(currentSelection);
-              }else{
+              } else {
                 Fluttertoast.showToast(msg: 'Quantity cannot go below "1"');
               }
             });
@@ -36,8 +36,7 @@ class _CounterState extends State<Counter> {
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.6),
-                  shape: BoxShape.circle),
+                  color: Colors.grey.withOpacity(0.6), shape: BoxShape.circle),
               child: Icon(
                 Icons.exposure_minus_1,
                 size: 20,
@@ -50,19 +49,20 @@ class _CounterState extends State<Counter> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
         SizedBox(width: 14),
+
+        //plus widget
         GestureDetector(
           onTap: () {
             setState(() {
-                ++currentSelection;
-                widget.onChanged(currentSelection);
+              ++currentSelection;
+              widget.onChanged(currentSelection);
             });
           },
           child: Container(
               padding: EdgeInsets.all(5),
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.brown,
-                  shape: BoxShape.circle),
+              decoration:
+                  BoxDecoration(color: Colors.brown, shape: BoxShape.circle),
               child: Icon(
                 Icons.add,
                 color: Colors.white,
