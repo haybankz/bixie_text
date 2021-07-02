@@ -1,7 +1,9 @@
 import 'package:bixie_text/models/product.dart';
+import 'package:bixie_text/provider/product_provider.dart';
 import 'package:bixie_text/views/widgets/counter.dart';
 import 'package:bixie_text/views/widgets/extra_items_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailView extends StatelessWidget {
   final Product product;
@@ -28,14 +30,16 @@ class ProductDetailView extends StatelessWidget {
                 ),
                 Text(
                   product.name ?? "",
-                  style: TextStyle(color: Colors.black87, fontSize: 18,
-                  fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 6,
                 ),
                 Text(
-                  product.description ?? "",
+                  product.fullDescription ?? "",
                   style: TextStyle(
                     color: Colors.grey,
                   ),
@@ -48,30 +52,33 @@ class ProductDetailView extends StatelessWidget {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "\$ ${product.price ?? 0}",
-                        style: TextStyle(color: Colors.black54, fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
                       ),
                       Counter(
                           onChanged: (value) {
-                            print(value);
-                          },
-                          max: 4),
+                            context.read<ProductProvider>().setQuantity(value);
+                          },),
                     ],
                   ),
                 ),
                 Container(
                   width: double.infinity,
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Color(0xffebe6e6),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
                   child: RichText(
                       text: TextSpan(
-                          text: "${product.extras?[0].name ?? ""}".toUpperCase(),
+                          text:
+                              "${product.extras?.first.name ?? ""}".toUpperCase(),
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black87,
@@ -84,24 +91,35 @@ class ProductDetailView extends StatelessWidget {
                 ),
                 Container(
                   width: double.infinity,
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Color(0xffdedede),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                   child: Text(
-                    "Please select ${product.extras?[0].max ?? "0"} item",
+                    "Please select ${product.extras?.first.max ?? "0"} item",
                     style: TextStyle(
                       color: Colors.black87,
                     ),
                   ),
                 ),
                 Expanded(
-                  child: SingleExtraItemsWidget(
-                    // maximumOption: 2,
-                    options: product.extraItems?.map((e) => e.name).toList() ?? [],
-                    onSelect: (value) {
-                      print(value);
-                    },
-                  ),
+                  child: int.parse(product.extras?.first.max ?? "0") <= 1
+                      ? SingleExtraItemsWidget(
+                          // maximumOption: 2,
+                          options:
+                              product.extraItems ??
+                                  [],
+                          onSelect: (value) {
+                            context.read<ProductProvider>().setExtraItem([value]);
+                          },
+                        )
+                      :
+                  MultipleExtraItemsWidget(
+                          maximumOption:
+                             int.parse(product.extras?.first.max ?? "0"),
+                          options: product.extraItems ?? [],
+                          onSelect: (value) {
+                            context.read<ProductProvider>().setExtraItem(value);
+                          }),
                 ),
                 SizedBox(height: 10),
                 Padding(
@@ -123,8 +141,9 @@ class ProductDetailView extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),
+
                         Text(
-                          "\$ 125",
+                          "\$ ${context.watch<ProductProvider>().subTotal}",
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),
@@ -139,7 +158,7 @@ class ProductDetailView extends StatelessWidget {
               top: 30,
               left: 20,
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -161,4 +180,3 @@ class ProductDetailView extends StatelessWidget {
     );
   }
 }
-

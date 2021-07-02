@@ -27,7 +27,7 @@ class Product {
   Category? category;
   Images? images;
   List<Extras>? extras;
-  List<Extra_items>? extraItems;
+  List<ExtraItems>? extraItems;
   List<String>? tags;
   String? availability;
 
@@ -65,7 +65,7 @@ class Product {
     if (json["extra_items"] != null) {
       extraItems = [];
       json["extra_items"].forEach((v) {
-        extraItems?.add(Extra_items.fromJson(v));
+        extraItems?.add(ExtraItems.fromJson(v));
       });
     }
     if (json["tags"] != null) {
@@ -112,19 +112,19 @@ class Product {
 /// extra_id : 1535
 /// price : "0"
 
-class Extra_items {
+class ExtraItems {
   int? id;
   String? name;
   int? extraId;
   String? price;
 
-  Extra_items({
+  ExtraItems({
       this.id, 
       this.name, 
       this.extraId, 
       this.price});
 
-  Extra_items.fromJson(dynamic json) {
+  ExtraItems.fromJson(dynamic json) {
     id = json["id"];
     name = json["name"];
     extraId = json["extra_id"];

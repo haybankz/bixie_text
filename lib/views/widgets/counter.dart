@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Counter extends StatefulWidget {
-  final int min;
-  final int max;
+
   final Function(int) onChanged;
 
-  Counter({required this.onChanged, this.min = 1, required this.max});
+  Counter({required this.onChanged});
 
   @override
   _CounterState createState() => _CounterState();
@@ -24,9 +24,11 @@ class _CounterState extends State<Counter> {
           onTap: () {
             setState(() {
 
-              if (currentSelection > widget.min) {
+              if (currentSelection > 1) {
                 --currentSelection;
                 widget.onChanged(currentSelection);
+              }else{
+                Fluttertoast.showToast(msg: 'Quantity cannot go below "1"');
               }
             });
           },
@@ -51,11 +53,8 @@ class _CounterState extends State<Counter> {
         GestureDetector(
           onTap: () {
             setState(() {
-
-              if (currentSelection < widget.max) {
                 ++currentSelection;
                 widget.onChanged(currentSelection);
-              }
             });
           },
           child: Container(
